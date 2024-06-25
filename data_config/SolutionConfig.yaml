@@ -1,0 +1,215 @@
+general_configs : 
+  sdk_session_id: 
+    dev: 0b76663bd5da49488f4fc94f119e7f0b
+    uat: b892aaa521af42278516a6699e2970a9
+    prod: 64ec92d6117247877965d152
+  tracking_env: dev
+
+data_engineering_ft:
+  datalake_configs:
+    input_tables :
+      source_1 : 
+        catalog_name : null
+        schema : anemia_classification_hive_db_v2
+        table : raw_anemia_classification_ft_v2
+        primary_keys: index
+
+    output_tables :
+      output_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: anemia_classification_feature_hive_2506_v1
+        primary_keys: index
+  storage_configs:
+    cloud_provider: azure
+    params:
+      storage_account_name: mlcdevtigerstorage38173
+      container_name: mlcore
+  is_scheduled : true
+  batch_size : 5000
+  cron_job_schedule: 0 */30 * ? * *
+
+data_engineering_gt:
+  datalake_configs:
+    input_tables :
+      source_1 : 
+        catalog_name : null
+        schema : anemia_classification_hive_db_v2
+        table : raw_anemia_classification_gt_v2
+        primary_keys: index
+    output_tables :
+      output_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: anemia_classification_gt_hive_2506_v1
+        primary_keys: index
+  storage_configs:
+    cloud_provider: azure
+    params:
+      storage_account_name: mlcdevtigerstorage38173
+      container_name: mlcore  
+  is_scheduled : true
+  batch_size : 5000
+  cron_job_schedule: 0 */30 * ? * *
+
+feature_pipelines_ft:
+  datalake_configs:
+    input_tables :
+      input_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: anemia_classification_feature_hive_2506_v1
+        primary_keys: index
+    output_tables :
+        output_1 :
+          catalog_name : null
+          schema : anemia_classification_hive_db_2406_v3
+          table: transformed_anemia_classification_feature_2506_v1
+          primary_keys: index
+  storage_configs:
+    cloud_provider: azure
+    params:
+      storage_account_name: mlcdevtigerstorage38173
+      container_name: mlcore
+  is_scheduled: false
+
+feature_pipelines_gt:
+  datalake_configs:
+    input_tables : 
+      input_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: anemia_classification_gt_hive_2506_v1
+        primary_keys: index
+    output_tables : 
+        output_1 :
+          catalog_name : null
+          schema : anemia_classification_hive_db_2406_v3
+          table: transformed_anemia_classification_gt_2506_v1
+          primary_keys: index  
+  storage_configs:
+    cloud_provider: azure
+    params:
+      storage_account_name: mlcdevtigerstorage38173
+      container_name: mlcore
+  is_scheduled: false
+
+train:
+  datalake_configs:
+    input_tables : 
+      input_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: transformed_anemia_classification_feature_2506_v1
+        primary_keys: index
+      input_2 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: transformed_anemia_classification_gt_2506_v1
+        primary_keys: index
+    output_tables : 
+        output_1 :
+          catalog_name : null
+          schema : anemia_classification_hive_db_2406_v3
+          table: trainoutput_anemia_classification_2506_v1
+          primary_keys: index
+  model_configs:
+    registry_platform: databricks
+    model_registry : mlflow
+    unity_catalog : "no"
+    model_registry_params:
+      tracking_env: dev
+      host_url: https://adb-1277783902121094.14.azuredatabricks.net
+    model_params:   
+      model_name: anemia_classification_az_mlflow_2506_v1
+  test_size: 0.2
+  feature_columns:
+  - WBC
+  - LYMp
+  - NEUTp
+  - LYMn
+  - NEUTn
+  - RBC
+  - HGB
+  - HCT
+  - MCV
+  - MCH
+  - MCHC
+  - PLT
+  - PDW
+  - PCT
+  - mean_WBC_RBC
+  - std_WBC_RBC
+  - id
+  target_columns:
+  - Diagnosis
+  is_scheduled: false
+
+data_prep_deployment_ft:
+  datalake_configs:
+    input_tables :
+      input_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: anemia_classification_feature_hive_2506_v1
+        primary_keys: index
+    output_tables :
+        output_1 :
+          catalog_name : null
+          schema : anemia_classification_hive_db_2406_v3
+          table: dpd_anemia_classification_feature_2506_v1
+          primary_keys: index  
+  storage_configs:
+    cloud_provider: azure
+    params:
+      storage_account_name: mlcdevtigerstorage38173
+      container_name: mlcore
+  is_scheduled: true
+  batch_size: 5000
+  cron_job_schedule: 0 */30 * ? * *
+
+data_prep_deployment_gt:
+  datalake_configs:
+    input_tables :
+      input_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: anemia_classification_gt_hive_2506_v1
+        primary_keys: index
+    output_tables : 
+        output_1 :
+          catalog_name : null
+          schema : anemia_classification_hive_db_2406_v3
+          table: dpd_anemia_classification_gt_2506_v1
+          primary_keys: index  
+  storage_configs:
+    cloud_provider: azure
+    params:
+      storage_account_name: mlcdevtigerstorage38173
+      container_name: mlcore
+  is_scheduled: true
+  batch_size: 5000
+  cron_job_schedule: 0 */30 * ? * *
+
+inference:
+  datalake_configs:
+    input_tables : 
+      input_1 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: dpd_anemia_classification_feature_2506_v1
+        primary_keys: index
+      input_2 :
+        catalog_name : null
+        schema : anemia_classification_hive_db_2406_v3
+        table: dpd_anemia_classification_gt_2506_v1
+        primary_keys: index
+    output_tables : 
+        output_1 :
+          catalog_name : null
+          schema : anemia_classification_hive_db_2406_v3
+          table: inference_anemia_classification_2506_v1
+          primary_keys: index
+  is_scheduled: true
+  batch_size: 5000
+  cron_job_schedule: 0 */30 * ? * *
