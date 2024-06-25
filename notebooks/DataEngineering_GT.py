@@ -4,6 +4,11 @@
 
 # COMMAND ----------
 
+# MAGIC %pip install numpy==1.19.1
+# MAGIC %pip install pandas==1.0.5
+
+# COMMAND ----------
+
 from sparkmeasure import StageMetrics, TaskMetrics
 
 taskmetrics = TaskMetrics(spark)
