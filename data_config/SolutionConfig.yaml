@@ -2,7 +2,7 @@ general_configs :
   sdk_session_id: 
     dev: 0b76663bd5da49488f4fc94f119e7f0b
     uat: b892aaa521af42278516a6699e2970a9
-    prod: 64ec92d6117247877965d152
+    prod: 64ec92d611724787796
   tracking_env: dev
 
 data_engineering_ft:
