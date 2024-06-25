@@ -1,0 +1,12 @@
+jobs:
+  de_ft_1:
+    depends_on: null
+  de_gt_1:
+    depends_on: null
+  
+  train1:
+    depends_on:
+      - de_ft_1
+      - de_gt_1
+
+  

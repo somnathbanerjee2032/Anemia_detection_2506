@@ -1,0 +1,40 @@
+resources:
+  jobs:
+    train1:
+      name: train1
+      type: MODEL_TRAIN
+      email_notifications:
+        on_failure:
+          - himanshu.bajpai@tigeranalytics.com
+
+      tasks:
+        - task_key: FeaturePipeline_FT
+          notebook_task:
+            notebook_path: /notebooks/FeaturePipeline_FT
+            base_parameters:
+              env: dev
+              task: fe
+          
+        - task_key: FeaturePipeline_GT
+          notebook_task:
+            notebook_path: /notebooks/FeaturePipeline_GT
+            base_parameters:
+              env: dev
+              task: fe
+          
+        - task_key: Train
+          depends_on:
+          - task_key: FeaturePipeline_FT
+          - task_key: FeaturePipeline_GT
+          notebook_task:
+            notebook_path: /notebooks/Train
+            base_parameters:
+              env: dev
+
+      access_control_list:
+        - group_name: MLCore_Services
+          permission_level: CAN_MANAGE
+           
+
+    
+    
