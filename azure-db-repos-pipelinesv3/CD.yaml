@@ -1,7 +1,7 @@
 resources:
   pipelines:
     - pipeline: ciPipeline  # Local identifier for the dependency
-      source: Anemia_Classify_repoV3/CI  # Path to the first pipeline's YAML file
+      source: Anemia_Classification_Somnath_V3_2506/CI  # Path to the first pipeline's YAML file
       trigger:
         branches:
           include:
