@@ -1,6 +1,6 @@
 general_configs : 
   sdk_session_id: 
-    dev: 0b76663bd5da49488f4fc94f119e7f0b
+    dev: b7c8078280ac404ba02fe5e30858912e
     uat: b892aaa521af42278516a6699e2970a9
     prod: 64ec92d611724787796
   tracking_env: dev
@@ -17,8 +17,8 @@ data_engineering_ft:
     output_tables :
       output_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: anemia_classification_feature_hive_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: anemia_classification_feature_hive_2606_v1
         primary_keys: index
   storage_configs:
     cloud_provider: azure
@@ -40,8 +40,8 @@ data_engineering_gt:
     output_tables :
       output_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: anemia_classification_gt_hive_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: anemia_classification_gt_hive_2606_v1
         primary_keys: index
   storage_configs:
     cloud_provider: azure
@@ -57,14 +57,14 @@ feature_pipelines_ft:
     input_tables :
       input_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: anemia_classification_feature_hive_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: anemia_classification_feature_hive_2606_v1
         primary_keys: index
     output_tables :
         output_1 :
           catalog_name : null
-          schema : anemia_classification_hive_db_2406_v3
-          table: transformed_anemia_classification_feature_2506_v1
+          schema : anemia_classification_hive_db_2406_v4
+          table: transformed_anemia_classification_feature_2606_v1
           primary_keys: index
   storage_configs:
     cloud_provider: azure
@@ -78,14 +78,14 @@ feature_pipelines_gt:
     input_tables : 
       input_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: anemia_classification_gt_hive_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: anemia_classification_gt_hive_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
           catalog_name : null
-          schema : anemia_classification_hive_db_2406_v3
-          table: transformed_anemia_classification_gt_2506_v1
+          schema : anemia_classification_hive_db_2406_v4
+          table: transformed_anemia_classification_gt_2606_v1
           primary_keys: index  
   storage_configs:
     cloud_provider: azure
@@ -99,19 +99,19 @@ train:
     input_tables : 
       input_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: transformed_anemia_classification_feature_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: transformed_anemia_classification_feature_2606_v1
         primary_keys: index
       input_2 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: transformed_anemia_classification_gt_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: transformed_anemia_classification_gt_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
           catalog_name : null
-          schema : anemia_classification_hive_db_2406_v3
-          table: trainoutput_anemia_classification_2506_v1
+          schema : anemia_classification_hive_db_2406_v4
+          table: trainoutput_anemia_classification_2606_v1
           primary_keys: index
   model_configs:
     registry_platform: databricks
@@ -121,7 +121,7 @@ train:
       tracking_env: dev
       host_url: https://adb-1277783902121094.14.azuredatabricks.net
     model_params:   
-      model_name: anemia_classification_az_mlflow_2506_v1
+      model_name: anemia_classification_az_mlflow_2606_v1
   test_size: 0.2
   feature_columns:
   - WBC
@@ -150,14 +150,14 @@ data_prep_deployment_ft:
     input_tables :
       input_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: anemia_classification_feature_hive_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: anemia_classification_feature_hive_2606_v1
         primary_keys: index
     output_tables :
         output_1 :
           catalog_name : null
-          schema : anemia_classification_hive_db_2406_v3
-          table: dpd_anemia_classification_feature_2506_v1
+          schema : anemia_classification_hive_db_2406_v4
+          table: dpd_anemia_classification_feature_2606_v1
           primary_keys: index  
   storage_configs:
     cloud_provider: azure
@@ -173,14 +173,14 @@ data_prep_deployment_gt:
     input_tables :
       input_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: anemia_classification_gt_hive_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: anemia_classification_gt_hive_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
           catalog_name : null
-          schema : anemia_classification_hive_db_2406_v3
-          table: dpd_anemia_classification_gt_2506_v1
+          schema : anemia_classification_hive_db_2406_v4
+          table: dpd_anemia_classification_gt_2606_v1
           primary_keys: index  
   storage_configs:
     cloud_provider: azure
@@ -196,19 +196,19 @@ inference:
     input_tables : 
       input_1 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: dpd_anemia_classification_feature_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: dpd_anemia_classification_feature_2606_v1
         primary_keys: index
       input_2 :
         catalog_name : null
-        schema : anemia_classification_hive_db_2406_v3
-        table: dpd_anemia_classification_gt_2506_v1
+        schema : anemia_classification_hive_db_2406_v4
+        table: dpd_anemia_classification_gt_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
           catalog_name : null
-          schema : anemia_classification_hive_db_2406_v3
-          table: inference_anemia_classification_2506_v1
+          schema : anemia_classification_hive_db_2406_v4
+          table: inference_anemia_classification_2606_v1
           primary_keys: index
   is_scheduled: true
   batch_size: 5000
