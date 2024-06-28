@@ -71,6 +71,7 @@ print(f"Input environment : {env}")
 
 # DBTITLE 1,Input from the user
 # GENERAL PARAMETERS
+tracking_env = solution_config["general_configs"]["tracking_env"]
 try :
     sdk_session_id = dbutils.widgets.get("sdk_session_id")
 except :
@@ -440,13 +441,18 @@ from MLCORE_SDK import mlclient
 
 # COMMAND ----------
 
+model_name = f"{model_configs.get('model_registry_params').get('catalog_name')}.{model_configs.get('model_registry_params').get('schema_name')}.{model_configs.get('model_params').get('model_name')}"
+model_name
+
+# COMMAND ----------
+
 # DBTITLE 1,Registering the model in MLCore
 mlclient.log(operation_type = "register_model",
     sdk_session_id = sdk_session_id,
     dbutils = dbutils,
     spark = spark,
-    model = pipe,
-    model_name = model_configs["model_params"]["model_name"],
+    model = model,
+    model_name = model_name,
     model_runtime_env = "python",
     train_metrics = train_metrics,
     test_metrics = test_metrics,
@@ -461,12 +467,13 @@ mlclient.log(operation_type = "register_model",
     target_columns = target_columns,
     table_type="unitycatalog" if output_table_configs["output_1"]["catalog_name"] else "internal",
     train_data_date_dict = train_data_date_dict,
-    hp_tuning_result=hp_tuning_result,
+    # hp_tuning_result=hp_tuning_result,
     compute_usage_metrics = compute_metrics,
     taskmetrics = taskmetrics,
     stagemetrics = stagemetrics,
-    tracking_env = env,
+    tracking_env = tracking_env,
     model_configs = model_configs,
-    example_input = first_row_dict,
     # register_in_feature_store=True,
+    example_input = first_row_dict,
+    tracking_url = tracking_url,
     verbose = True)
