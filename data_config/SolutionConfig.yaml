@@ -1,30 +1,33 @@
 general_configs : 
   sdk_session_id: 
-    dev: b7c8078280ac404ba02fe5e30858912e
+    dev: b1d3af8ae1614f59b18f5ca224d9b755
     uat: b892aaa521af42278516a6699e2970a9
     prod: 64ec92d611724787796
   tracking_env: dev
+  tracking_url : mlcoredevv2sql21test.azurewebsites.net
 
 data_engineering_ft:
   datalake_configs:
     input_tables :
       source_1 : 
-        catalog_name : null
-        schema : anemia_classification_hive_db_v2
-        table : raw_anemia_classification_ft_v2
+        catalog_name : mlcore_dev
+        schema : anemia_c_uc_2
+        table : raw_anemia_c_uc_feature_2
         primary_keys: index
 
     output_tables :
       output_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
-        table: anemia_classification_feature_hive_2606_v1
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
+        table: anemia_classification_feature_uc_2606_v1
         primary_keys: index
   storage_configs:
-    cloud_provider: azure
+    cloud_provider: databricks_uc
     params:
-      storage_account_name: mlcdevtigerstorage38173
-      container_name: mlcore
+      metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   is_scheduled : true
   batch_size : 5000
   cron_job_schedule: 0 */30 * ? * *
@@ -33,21 +36,23 @@ data_engineering_gt:
   datalake_configs:
     input_tables :
       source_1 : 
-        catalog_name : null
-        schema : anemia_classification_hive_db_v2
-        table : raw_anemia_classification_gt_v2
+        catalog_name : mlcore_dev
+        schema : anemia_c_uc_2
+        table : raw_anemia_c_uc_gt_2
         primary_keys: index
     output_tables :
       output_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
-        table: anemia_classification_gt_hive_2606_v1
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
+        table: anemia_classification_gt_uc_2606_v1
         primary_keys: index
   storage_configs:
-    cloud_provider: azure
+    cloud_provider: databricks_uc
     params:
-      storage_account_name: mlcdevtigerstorage38173
-      container_name: mlcore  
+       metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   is_scheduled : true
   batch_size : 5000
   cron_job_schedule: 0 */30 * ? * *
@@ -56,72 +61,83 @@ feature_pipelines_ft:
   datalake_configs:
     input_tables :
       input_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
-        table: anemia_classification_feature_hive_2606_v1
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
+        table: anemia_classification_feature_uc_2606_v1
         primary_keys: index
     output_tables :
         output_1 :
-          catalog_name : null
-          schema : anemia_classification_hive_db_2406_v4
+          catalog_name : mlcore_dev
+          schema : anemia_classification_uc_db_2406_v4
           table: transformed_anemia_classification_feature_2606_v1
           primary_keys: index
   storage_configs:
-    cloud_provider: azure
+    cloud_provider: databricks_uc
     params:
-      storage_account_name: mlcdevtigerstorage38173
-      container_name: mlcore
+       metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   is_scheduled: false
 
 feature_pipelines_gt:
   datalake_configs:
     input_tables : 
       input_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
-        table: anemia_classification_gt_hive_2606_v1
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
+        table: anemia_classification_gt_uc_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
-          catalog_name : null
-          schema : anemia_classification_hive_db_2406_v4
+          catalog_name : mlcore_dev
+          schema : anemia_classification_uc_db_2406_v4
           table: transformed_anemia_classification_gt_2606_v1
           primary_keys: index  
   storage_configs:
-    cloud_provider: azure
+    cloud_provider: databricks_uc
     params:
-      storage_account_name: mlcdevtigerstorage38173
-      container_name: mlcore
+        metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   is_scheduled: false
 
 train:
   datalake_configs:
     input_tables : 
       input_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
         table: transformed_anemia_classification_feature_2606_v1
         primary_keys: index
       input_2 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
         table: transformed_anemia_classification_gt_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
-          catalog_name : null
-          schema : anemia_classification_hive_db_2406_v4
+          catalog_name : mlcore_dev
+          schema : anemia_classification_uc_db_2406_v4
           table: trainoutput_anemia_classification_2606_v1
           primary_keys: index
   model_configs:
     registry_platform: databricks
-    model_registry : mlflow
-    unity_catalog : "no"
+    model_registry: mlflow
+    unity_catalog: "yes"
     model_registry_params:
-      tracking_env: dev
-      host_url: https://adb-1277783902121094.14.azuredatabricks.net
+      catalog_name: mlcore_dev
+      schema_name: anemia_classification_uc_db_2406_v4
     model_params:   
       model_name: anemia_classification_az_mlflow_2606_v1
+  storage_configs:
+    cloud_provider: databricks_uc
+    params:
+      metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   test_size: 0.2
   feature_columns:
   - WBC
@@ -149,21 +165,23 @@ data_prep_deployment_ft:
   datalake_configs:
     input_tables :
       input_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
-        table: anemia_classification_feature_hive_2606_v1
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
+        table: anemia_classification_feature_uc_2606_v1
         primary_keys: index
     output_tables :
         output_1 :
-          catalog_name : null
-          schema : anemia_classification_hive_db_2406_v4
+          catalog_name : mlcore_dev
+          schema : anemia_classification_uc_db_2406_v4
           table: dpd_anemia_classification_feature_2606_v1
           primary_keys: index  
   storage_configs:
-    cloud_provider: azure
+    cloud_provider: databricks_uc
     params:
-      storage_account_name: mlcdevtigerstorage38173
-      container_name: mlcore
+      metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   is_scheduled: true
   batch_size: 5000
   cron_job_schedule: 0 */30 * ? * *
@@ -172,21 +190,23 @@ data_prep_deployment_gt:
   datalake_configs:
     input_tables :
       input_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
-        table: anemia_classification_gt_hive_2606_v1
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
+        table: anemia_classification_gt_uc_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
-          catalog_name : null
-          schema : anemia_classification_hive_db_2406_v4
+          catalog_name : mlcore_dev
+          schema : anemia_classification_uc_db_2406_v4
           table: dpd_anemia_classification_gt_2606_v1
           primary_keys: index  
   storage_configs:
-    cloud_provider: azure
+    cloud_provider: databricks_uc
     params:
-      storage_account_name: mlcdevtigerstorage38173
-      container_name: mlcore
+      metastore: null
+      catalog_name: mlcore_dev
+      schema_name: mlcore
+      volume_name: mlcore_volume
   is_scheduled: true
   batch_size: 5000
   cron_job_schedule: 0 */30 * ? * *
@@ -195,21 +215,23 @@ inference:
   datalake_configs:
     input_tables : 
       input_1 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
         table: dpd_anemia_classification_feature_2606_v1
         primary_keys: index
       input_2 :
-        catalog_name : null
-        schema : anemia_classification_hive_db_2406_v4
+        catalog_name : mlcore_dev
+        schema : anemia_classification_uc_db_2406_v4
         table: dpd_anemia_classification_gt_2606_v1
         primary_keys: index
     output_tables : 
         output_1 :
-          catalog_name : null
-          schema : anemia_classification_hive_db_2406_v4
+          catalog_name : mlcore_dev
+          schema : anemia_classification_uc_db_2406_v4
           table: inference_anemia_classification_2606_v1
           primary_keys: index
+  model_configs:
+    use_latest_version: true
   is_scheduled: true
-  batch_size: 5000
-  cron_job_schedule: 0 */30 * ? * *
+  batch_size: 100
+  cron_job_schedule: "0 */30 * ? * *"
